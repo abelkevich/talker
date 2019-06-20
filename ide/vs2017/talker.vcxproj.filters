@@ -34,8 +34,5 @@
     <ClCompile Include="..\..\src\router.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tests\sample.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
