@@ -4,15 +4,48 @@
 namespace Talker 
 {
 
-	void Client::receive(const Msg &msg)
+	void Client::receiveUserMsg(const Msg &msg)
 	{
 		m_f(msg);
 		delete msg.getData();
 	}
+	
+	void Client::receiveSystemRouterMsg(const RouterMsg &msg)
+	{
+		switch (msg.msg)
+		{
+		case Talker::ERouterMsg::eConnected:
+		{
+			m_id = msg.data;
+			break;
+		}
 
-	Client::Client(std::function<void(const Msg&)> f, Router *router)
-		: m_router(router)
-		, m_id(router->connect(this))
+		case Talker::ERouterMsg::eDisconnected:
+		case Talker::ERouterMsg::eShuttingDown:
+			m_router = nullptr;
+			break;
+
+		}
+	}
+
+	bool Client::send(uint16_t receiver, const void* data, size_t len)
+	{
+		if (!m_router)
+		{
+			return false;
+		}
+
+		uint8_t* data_copy = new uint8_t[len];
+		memcpy(data_copy, data, len);
+
+		m_router->send(Msg(m_id, receiver, data_copy, len));
+
+		return true;
+	}
+	
+	Client::Client(std::function<void(const Msg&)> f)
+		: m_router(nullptr)
+		, m_id(0)
 		, m_f(f)
 	{
 
@@ -20,9 +53,30 @@ namespace Talker
 
 	Client::~Client()
 	{
-		m_router->disconnect(m_id);
+		disconnect();
 	}
 
-	uint16_t Client::getId() { return m_id; }
+	void Client::connect(Router &router)
+	{
+		disconnect();
+
+		m_router = &router;
+		sendSystemMsg(ClientMsg(EClientMsg::eConnectRequest, this));
+	}
+
+	bool Client::disconnect()
+	{
+		return sendSystemMsg(ClientMsg(EClientMsg::eDisconnectRequest, this));
+	}
+
+	bool Client::sendSystemMsg(const ClientMsg &msg)
+	{
+		if (!m_router) return false;
+		
+		m_router->receiveSystemClientMsg(msg);
+		return true;
+	}
+
+	uint16_t Client::getId() const { return m_id; }
 
 }

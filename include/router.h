@@ -5,7 +5,7 @@
 #include <map>
 #include <queue>
 #include "Msg.h"
-
+#include "utils.h"
 
 namespace Talker 
 {
@@ -20,17 +20,21 @@ private:
 	std::queue<Msg> m_msg_queue;
 	std::mutex m_queue_mutex;
 
-	void process();
+	void process(uint16_t freq_khz);
 
 	uint16_t genId();
 	void send(Msg msg);
-	uint16_t connect(Client* receiver);
-	void disconnect(uint16_t id);
+	bool connect(Client* receiver);
+	bool disconnect(Client* client);
+	std::pair<uint16_t, Client*> findByClient(Client* client);
+
+	bool sendSystemMsg(const RouterMsg &msg, Client* client);
+	void receiveSystemClientMsg(ClientMsg msg);
 
 public:
 	friend class Client;
 
-	Router();
+	Router(uint16_t freq_khz = 1);
 	~Router();
 };
 

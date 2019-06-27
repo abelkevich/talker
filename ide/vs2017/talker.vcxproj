@@ -44,14 +44,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)..\..\include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\build\bin\vs2017\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\obj\vs2017\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\build\bin\win</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\obj\win\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)-d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)..\..\include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\build\bin\vs2017\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\obj\vs2017\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\build\bin\win</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\obj\win\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -84,6 +85,7 @@
     <ClInclude Include="..\..\include\client.h" />
     <ClInclude Include="..\..\include\msg.h" />
     <ClInclude Include="..\..\include\router.h" />
+    <ClInclude Include="..\..\include\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\client.cpp" />

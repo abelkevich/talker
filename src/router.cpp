@@ -4,11 +4,49 @@
 namespace Talker 
 {
 
-	void Router::process()
+	void Router::receiveSystemClientMsg(ClientMsg msg)
 	{
+		switch (msg.msg)
+		{
+		case Talker::EClientMsg::eConnectRequest:
+		{
+			if (!connect(msg.client))
+			{
+				sendSystemMsg(RouterMsg(ERouterMsg::eDisconnected), msg.client);
+				return;
+			}
+
+			auto pair = findByClient(msg.client);
+			sendSystemMsg(RouterMsg(ERouterMsg::eConnected, pair.first), msg.client);
+
+			return;
+		}
+		case Talker::EClientMsg::eDisconnectRequest:
+		case Talker::EClientMsg::eShuttingDown:
+		{
+			disconnect(msg.client);
+			sendSystemMsg(RouterMsg(ERouterMsg::eDisconnected), msg.client);
+
+			return;
+		}
+		}
+	}
+
+	bool Router::sendSystemMsg(const RouterMsg &msg, Client* client)
+	{
+		if (!client) return false;
+
+		client->receiveSystemRouterMsg(msg);
+		return true;
+	}
+
+	void Router::process(uint16_t freq_khz)
+	{
+		auto wait_time = std::chrono::microseconds(1000000 / (freq_khz * 1000));
+		
 		while (true)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			std::this_thread::sleep_for(wait_time);
 
 			std::lock_guard<std::mutex> lock(m_queue_mutex);
 			while (!m_msg_queue.empty())
@@ -18,7 +56,7 @@ namespace Talker
 
 				if (it != m_map_id_receiver.end())
 				{
-					it->second->receive(msg);
+					it->second->receiveUserMsg(msg);
 					m_msg_queue.pop();
 				}
 			}
@@ -37,35 +75,64 @@ namespace Talker
 		m_msg_queue.push(msg);
 	}
 
-	uint16_t Router::connect(Client* receiver)
+	std::pair<uint16_t, Client*> Router::findByClient(Client* client)
 	{
 		std::lock_guard<std::mutex> lock(m_queue_mutex);
 
+		for (auto pair : m_map_id_receiver)
+		{
+			if (client == pair.second) return pair;
+		}
+
+		return std::pair<uint16_t, Client*>(0, nullptr);
+	}
+
+	bool Router::connect(Client* client)
+	{
+		std::lock_guard<std::mutex> lock(m_queue_mutex);
+
+		for (auto pair : m_map_id_receiver)
+		{
+			if (client == pair.second) return false;
+		}
+
 		uint16_t id = genId();
 
-		auto id_receiver = std::make_pair(id, receiver);
-		m_map_id_receiver.insert(id_receiver);
+		auto id_client = std::make_pair(id, client);
+		m_map_id_receiver.insert(id_client);
 
-		return id;
+
+		return true;
 	}
 
-	void Router::disconnect(uint16_t id)
+	bool Router::disconnect(Client* client)
 	{
-		auto it = m_map_id_receiver.find(id);
+		std::lock_guard<std::mutex> lock(m_queue_mutex);
 
-		if (it != m_map_id_receiver.end())
+		auto it = m_map_id_receiver.find(client->getId());
+
+		if (it == m_map_id_receiver.end())
 		{
-			m_map_id_receiver.erase(it);
+			return false;
 		}
+
+		m_map_id_receiver.erase(it);
+
+		return true;
 	}
 
-	Router::Router()
+	Router::Router(uint16_t freq_khz)
 	{
-		m_thread = std::thread([=] {process(); });
+		m_thread = std::thread([=] {process(freq_khz); });
 	}
 
 	Router::~Router()
 	{
+		for (auto pair : m_map_id_receiver)
+		{
+			sendSystemMsg(RouterMsg(ERouterMsg::eShuttingDown), pair.second);
+		}
+		
 		m_thread.join();
 	}
 
