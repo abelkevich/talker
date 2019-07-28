@@ -1,11 +1,13 @@
-#include "Client.h"
-#include "Router.h"
+#include <cstring>
+#include "client.h"
+#include "router.h"
 
 namespace Talker 
 {
 
-	void Client::receiveUserMsg(const Msg &msg)
+	void Client::receiveUserMsg(Msg msg)
 	{
+	        std::lock_guard<std::mutex> lock(m_handler_mutex);
 		m_f(msg);
 		delete msg.getData();
 	}
@@ -36,7 +38,7 @@ namespace Talker
 		}
 
 		uint8_t* data_copy = new uint8_t[len];
-		memcpy(data_copy, data, len);
+		std::memcpy(data_copy, data, len);
 
 		m_router->send(Msg(m_id, receiver, data_copy, len));
 

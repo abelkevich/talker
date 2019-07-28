@@ -1,7 +1,8 @@
 #pragma once
 #include <functional>
+#include <mutex>
 #include <inttypes.h>
-#include "Msg.h"
+#include "msg.h"
 #include "utils.h"
 
 namespace Talker 
@@ -11,11 +12,12 @@ namespace Talker
 	class Client final
 	{
 	private:
-		Router* m_router;
+       	        std::mutex m_handler_mutex;
+       	        Router* m_router;
 		uint16_t m_id;
 		std::function<void(const Msg&)> m_f;
 
-		void receiveUserMsg(const Msg &msg);
+		void receiveUserMsg(Msg msg);
 		void receiveSystemRouterMsg(const RouterMsg &msg);
 
 		bool sendSystemMsg(const ClientMsg &msg);

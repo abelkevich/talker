@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "Router.h"
-#include "Msg.h"
-#include "Client.h"
+#include "router.h"
+#include "msg.h"
+#include "client.h"
 
 using namespace Talker;
 
