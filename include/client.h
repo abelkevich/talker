@@ -12,13 +12,13 @@ namespace Talker
 	class Client final
 	{
 	private:
-       	        std::mutex m_handler_mutex;
-       	        Router* m_router;
+       	std::mutex m_handler_mutex;
+       	Router* m_router;
 		uint16_t m_id;
 		std::function<void(const Msg&)> m_f;
 
 		void receiveUserMsg(Msg msg);
-		void receiveSystemRouterMsg(const RouterMsg &msg);
+		void receiveSystemMsg(const RouterMsg &msg);
 
 		bool sendSystemMsg(const ClientMsg &msg);
 

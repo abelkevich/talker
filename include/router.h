@@ -1,4 +1,5 @@
 #pragma once
+
 #include <thread>
 #include <mutex>
 #include <inttypes.h>
@@ -6,6 +7,7 @@
 #include <queue>
 #include <list>
 #include <atomic>
+
 #include "msg.h"
 #include "utils.h"
 
@@ -30,19 +32,20 @@ private:
 
 	uint16_t genId();
 	void send(Msg msg);
-	bool connect(Client* receiver);
-	std::pair<uint16_t, Client*> findByClient(Client* client);
+	uint16_t connect(Client* receiver);
+    
 
-	bool sendSystemMsg(const RouterMsg &msg, Client* client);
-	void receiveSystemClientMsg(ClientMsg msg);
+	bool sendSystemMsg(const RouterMsg &msg, uint16_t id);
+	void receiveSystemMsg(ClientMsg msg);
 	
 public:
 	friend class Client;
 
+	std::list<uint16_t> getOnlineClients();
+
 	bool isQueueEmpty() const;
-	std::list<const Client*> getClients();
-	bool disconnect(const Client* client);
-	bool disconnect(uint16_t id);
+    bool isClientOnline(uint16_t id);	
+	bool disconnectClient(uint16_t id);
 	void reset();
 
 	Router(uint16_t freq_khz = 1);
