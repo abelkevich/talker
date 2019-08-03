@@ -1,0 +1,16 @@
+namespace Talker
+{
+
+class Router
+{
+public:
+	virtual std::list<uint16_t> getOnlineClients() = 0;
+	virtual bool isQueueEmpty() const = 0;
+    virtual bool isClientOnline(uint16_t id) = 0;	
+	virtual bool disconnectClient(uint16_t id) = 0;
+	virtual void reset() = 0;
+
+	static Router* createInstance(uint16_t freq_khz = 1);
+};
+
+}

@@ -1,0 +1,41 @@
+#include "router.h"
+
+namespace Talker{
+
+std::list<uint16_t> Router::getOnlineClients()
+{
+
+}
+
+bool Router::isQueueEmpty() const
+{
+  
+}
+
+bool Router::isClientOnline(uint16_t id)
+{
+
+}
+
+bool Router::disconnectClient(uint16_t id)
+{
+
+}
+  
+void Router::reset()
+{
+
+}
+
+Router::Router(uint16_t freq_khz = 1)
+{
+
+}
+
+  
+Router::~Router(){
+
+}
+
+
+}

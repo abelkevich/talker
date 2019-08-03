@@ -1,8 +1,11 @@
 #pragma once
 
+#include <cinttypes>
 
-namespace Talker 
+namespace Library 
 {
+
+typedef uint16_t ID;
 
 class Client;
 

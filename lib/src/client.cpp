@@ -1,8 +1,9 @@
 #include <cstring>
+
 #include "client.h"
 #include "router.h"
 
-namespace Talker 
+namespace Library
 {
 
 void Client::receiveUserMsg(Msg msg)

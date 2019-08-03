@@ -1,19 +1,19 @@
 #include "router.h"
 #include "client.h"
 
-namespace Talker 
+namespace Library
 {
 
 Router::Router(uint16_t freq_khz)
              : m_queue_empty(true)
 {
-	m_thread = std::thread([=] {process(freq_khz); });
+	m_msg_queue_process_thread = std::thread([=]{process(freq_khz);});
 }
 
 Router::~Router()
 {
     reset();
-	m_thread.join();
+	m_msg_queue_process_thread.join();
 }
 
 void Router::receiveSystemMsg(ClientMsg msg)
@@ -46,7 +46,7 @@ bool Router::sendSystemMsg(const RouterMsg &msg, uint16_t id)
 {
     if(!isClientOnline(id)) return false;
 
-	Client *client = m_map_id_receiver[id];
+	Client *client = m_map_id_client[id];
 	client->receiveSystemMsg(msg);
 	return true;
 }
@@ -66,9 +66,9 @@ void Router::process(uint16_t freq_khz)
 		while (!m_msg_queue.empty())
 		{
 			const Msg &msg = m_msg_queue.front();
-			auto it = m_map_id_receiver.find(msg.getReceiver());
+			auto it = m_map_id_client.find(msg.getReceiver());
 
-			if (it != m_map_id_receiver.end())
+			if (it != m_map_id_client.end())
 			{
 			    // TODO: store thread handler to manage it
 			    std::thread(&Client::receiveUserMsg, it->second, msg).detach();
@@ -89,7 +89,7 @@ std::list<uint16_t> Router::getOnlineClients()
 
     std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
 
-    for(auto it: m_map_id_receiver)
+    for(auto it: m_map_id_client)
     {
 	    clients.push_back(it.first);
     }
@@ -107,7 +107,7 @@ void Router::reset()
     {
 		std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
 
-		for (auto it: m_map_id_receiver)
+		for (auto it: m_map_id_client)
 		{
 		    disconnectClient(it.second->getId());
 		}
@@ -123,11 +123,17 @@ void Router::reset()
 	}
 }
 
-// TODO: need a proper way to gen id's
 uint16_t Router::genId()
 {
-	static uint16_t id = 1;
-	return id++;
+    for(uint16_t i=1; i<65536; i++)
+	{
+		if(!isClientOnline(i))
+		{
+			return i;
+		}
+	}
+
+	return 0;
 }
 
 void Router::send(const Msg msg)
@@ -138,29 +144,38 @@ void Router::send(const Msg msg)
 
 uint16_t Router::connect(Client* client)
 {
-	std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
+  /*
+    {
+	  std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
 
-	for (auto pair : m_map_id_receiver)
-	{
-		if (client == pair.second) return 0;
+	  for (auto pair : m_map_id_client)
+	  {
+		  if (client == pair.second) return 0;
+	  }
 	}
-
+  */
+  
 	uint16_t id = genId();
 
+	std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
+
 	auto id_client = std::make_pair(id, client);
-	m_map_id_receiver.insert(id_client);
+	m_map_id_client.insert(id_client);
 
 	return id;
 }
 
 bool Router::disconnectClient(uint16_t id)
 {
-    if (!isClientOnline(id)) return false;
+    if (!isClientOnline(id))
+	{	
+       return false;
+	}
 	
 	sendSystemMsg(RouterMsg(ERouterMsg::eDisconnected), id);
 
-	auto it = m_map_id_receiver.find(id);
-	m_map_id_receiver.erase(it);
+	auto it = m_map_id_client.find(id);
+	m_map_id_client.erase(it);
 
 	return true;
 }
@@ -169,8 +184,8 @@ bool Router::isClientOnline(uint16_t id)
 {
     std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
 
-    auto it = m_map_id_receiver.find(id);
-	return it != m_map_id_receiver.end();
+    auto it = m_map_id_client.find(id);
+	return it != m_map_id_client.end();
 }
-  
+
 }
