@@ -1,6 +1,0 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(434,5): warning MSB8003: The WindowsSDKDir property is not defined. Some build tools may not be found.
-  client.cpp
-  router.cpp
-C:\Users\oleksii.belkevych\source\repos\abelkevich\talker\api\src\client.cpp(1,10): error C1083:  Cannot open include file: 'client.h': No such file or directory
-  Generating Code...
-C:\Users\oleksii.belkevych\source\repos\abelkevich\talker\api\src\router.cpp(1,10): error C1083:  Cannot open include file: 'router.h': No such file or directory
