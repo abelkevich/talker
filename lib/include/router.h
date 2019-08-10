@@ -2,7 +2,7 @@
 
 #include <thread>
 #include <mutex>
-#include <inttypes.h>
+#include <cinttypes>
 #include <map>
 #include <queue>
 #include <list>
@@ -45,8 +45,8 @@ public:
 	bool disconnectClient(uint16_t id);
 	void reset();
 
-	LibRouter(uint16_t freq_khz);
-	~LibRouter();
+	Router(uint16_t freq_khz);
+	~Router();
 };
  
 }

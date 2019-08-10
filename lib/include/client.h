@@ -16,7 +16,7 @@ class Client final
 {
 private:
 	std::mutex m_handler_mutex;
-	LibRouter* m_router;
+	Router* m_router;
 	uint16_t m_id;
 	std::function<void(const Msg&)> m_f;
 
@@ -31,7 +31,7 @@ public:
 
 	uint16_t getId() const;
 
-	void connect(LibRouter &router);
+	void connect(Router &router);
 	bool disconnect();
 
 	bool send(uint16_t receiver, const void* data, size_t len);

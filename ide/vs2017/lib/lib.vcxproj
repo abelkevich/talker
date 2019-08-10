@@ -10,23 +10,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\lib\src\client.cpp" />
+    <ClCompile Include="..\..\..\lib\src\msg.cpp" />
+    <ClCompile Include="..\..\..\lib\src\router.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\lib\include\client.h" />
+    <ClInclude Include="..\..\..\lib\include\msg.h" />
+    <ClInclude Include="..\..\..\lib\include\router.h" />
+    <ClInclude Include="..\..\..\lib\include\utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{114579DF-6D4F-4E38-B104-F2A94DB49E1C}</ProjectGuid>
-    <RootNamespace>tests</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectGuid>{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}</ProjectGuid>
+    <RootNamespace>talker</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>lib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -43,16 +55,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)..\..\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir)..\..\build\bin\vs2017\tests\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\obj\vs2017\tests\$(Configuration)\</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\include\;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\..\build\bin\win</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\obj\win\$(Configuration)\</IntDir>
+    <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)-d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)..\..\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir)..\..\build\bin\vs2017\tests\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\obj\vs2017\tests\$(Configuration)\</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\include\;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\..\build\bin\win</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\obj\win\$(Configuration)\</IntDir>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -60,11 +73,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\oleksii.belkevych\source\repos\abelkevich\talker\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(PROJECTDIR)..\..\build\bin\win\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>talker-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -74,17 +85,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(PROJECTDIR)..\..\build\bin\win\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>talker.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\tests\sample.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

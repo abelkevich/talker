@@ -5,7 +5,7 @@
 namespace Library
 {
 
-class Msg
+class Msg final
 {
 protected:
 	const uint16_t m_sender;

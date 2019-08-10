@@ -1,6 +1,9 @@
 #pragma once
-
+#include <functional>
 #include <cinttypes>
+
+#include "msg.h"
+#include "router.h"
 
 class LibClient;
 

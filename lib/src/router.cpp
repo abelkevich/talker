@@ -20,7 +20,7 @@ void Router::receiveSystemMsg(ClientMsg msg)
 {
 	switch (msg.msg)
 	{
-	case Talker::EClientMsg::eConnectRequest:
+	case EClientMsg::eConnectRequest:
 	{
 	    uint16_t id = connect(msg.client);
 	  
@@ -33,8 +33,8 @@ void Router::receiveSystemMsg(ClientMsg msg)
 		sendSystemMsg(RouterMsg(ERouterMsg::eConnected, id), id);
 		return;
 	}
-	case Talker::EClientMsg::eDisconnectRequest:
-	case Talker::EClientMsg::eShuttingDown:
+	case EClientMsg::eDisconnectRequest:
+	case EClientMsg::eShuttingDown:
 	{
 	    disconnectClient(msg.client->getId());
 		return;
@@ -87,12 +87,14 @@ std::list<uint16_t> Router::getOnlineClients()
 {
     std::list<uint16_t> clients;
 
-    std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
+	{
+		std::lock_guard<std::mutex> lock_clients(m_clients_mutex);
 
-    for(auto it: m_map_id_client)
-    {
-	    clients.push_back(it.first);
-    }
+		for (auto it : m_map_id_client)
+		{
+			clients.push_back(it.first);
+		}
+	}
 
     return clients;
 }

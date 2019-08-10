@@ -17,14 +17,14 @@ void Client::receiveSystemMsg(const RouterMsg &msg)
 {
 	switch (msg.msg)
 	{
-	case Talker::ERouterMsg::eConnected:
+	case ERouterMsg::eConnected:
 	{
 		m_id = msg.data;
 		break;
 	}
 
-	case Talker::ERouterMsg::eDisconnected:
-	case Talker::ERouterMsg::eShuttingDown:
+	case ERouterMsg::eDisconnected:
+	case ERouterMsg::eShuttingDown:
 		m_router = nullptr;
 		break;
 
