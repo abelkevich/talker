@@ -11,7 +11,7 @@
 #include "msg.h"
 #include "utils.h"
 
-namespace Library
+namespace Lib
 {
 
 class Client;

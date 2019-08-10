@@ -17,12 +17,18 @@
     <ClCompile Include="..\..\..\api\src\router.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\api\src\msg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\api\include\client.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\api\include\router.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\api\include\msg.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

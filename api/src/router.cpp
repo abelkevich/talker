@@ -1,41 +1,46 @@
 #include "router.h"
-#include "system_router.h"
+#include "lib\include\router.h"
 
-namespace Talker{
+namespace Talker
+{
 
 std::list<uint16_t> Router::getOnlineClients()
 {
-    return m_system_router->getOnlineClients();
+    return m_lib_router->getOnlineClients();
 }
 
 bool Router::isQueueEmpty() const
 {
-    return m_system_router->isQueueEmpty();
+    return m_lib_router->isQueueEmpty();
 }
 
 bool Router::isClientOnline(uint16_t id)
 {
-    return m_system_router->isClientOnline(id);
+    return m_lib_router->isClientOnline(id);
 }
 
 bool Router::disconnectClient(uint16_t id)
 {
-    return m_system_router->disconnectClient(id);
+    return m_lib_router->disconnectClient(id);
 }
   
 void Router::reset()
 {
-    m_system_router->reset();
+    m_lib_router->reset();
 }
 
-Router::Router(uint16_t freq_khz = 1)
-             : m_system_router(new SystemRouter(freq_khz))
+Lib::Router* Router::getRouter() const
+{
+	return m_lib_router;
+}
+
+Router::Router(uint16_t freq_khz)
+             : m_lib_router(new Lib::Router(freq_khz))
 {
 }
 
 Router::~Router()
 {
-    delete m_system_router;
+    delete m_lib_router;
 }
-
 }

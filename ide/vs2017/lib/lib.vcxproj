@@ -56,15 +56,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)..\..\include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\build\bin\win</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\obj\win\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\build\bin\win\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\obj\win\lib\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
-    <TargetName>$(ProjectName)-d</TargetName>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)..\..\include\;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\build\bin\win</OutDir>
-    <IntDir>$(SolutionDir)..\..\build\obj\win\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\build\bin\win\lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\obj\win\lib\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -73,7 +73,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\oleksii.belkevych\source\repos\abelkevich\talker\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>

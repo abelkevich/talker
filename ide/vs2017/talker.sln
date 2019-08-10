@@ -7,10 +7,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib", "lib\lib.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{114579DF-6D4F-4E38-B104-F2A94DB49E1C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{BEED7804-69C1-4DFF-A848-E5E77564EF75} = {BEED7804-69C1-4DFF-A848-E5E77564EF75}
 		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7} = {DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "api", "api\api.vcxproj", "{BEED7804-69C1-4DFF-A848-E5E77564EF75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7} = {DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,16 +24,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}.Debug|x64.ActiveCfg = Debug|x64
 		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}.Debug|x64.Build.0 = Debug|x64
-		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}.Debug|x86.ActiveCfg = Debug|x64
 		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}.Release|x64.ActiveCfg = Release|x64
 		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}.Release|x64.Build.0 = Release|x64
-		{DD4FD621-FC49-4E79-B65D-9DB09BF86FF7}.Release|x86.ActiveCfg = Release|x64
 		{114579DF-6D4F-4E38-B104-F2A94DB49E1C}.Debug|x64.ActiveCfg = Debug|x64
 		{114579DF-6D4F-4E38-B104-F2A94DB49E1C}.Debug|x64.Build.0 = Debug|x64
-		{114579DF-6D4F-4E38-B104-F2A94DB49E1C}.Debug|x86.ActiveCfg = Debug|x64
 		{114579DF-6D4F-4E38-B104-F2A94DB49E1C}.Release|x64.ActiveCfg = Release|x64
 		{114579DF-6D4F-4E38-B104-F2A94DB49E1C}.Release|x64.Build.0 = Release|x64
-		{114579DF-6D4F-4E38-B104-F2A94DB49E1C}.Release|x86.ActiveCfg = Release|x64
 		{BEED7804-69C1-4DFF-A848-E5E77564EF75}.Debug|x64.ActiveCfg = Debug|x64
 		{BEED7804-69C1-4DFF-A848-E5E77564EF75}.Debug|x64.Build.0 = Debug|x64
 		{BEED7804-69C1-4DFF-A848-E5E77564EF75}.Release|x64.ActiveCfg = Release|x64

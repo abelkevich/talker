@@ -1,6 +1,6 @@
 #include "msg.h"
 
-namespace Library
+namespace Lib
 {
 
 Msg::Msg(uint16_t sender, uint16_t receiver, uint8_t* data, uint16_t len)

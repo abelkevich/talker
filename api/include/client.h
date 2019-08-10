@@ -1,18 +1,23 @@
 #pragma once
+
 #include <functional>
 #include <cinttypes>
 
 #include "msg.h"
 #include "router.h"
 
-class LibClient;
+namespace Lib
+{
+	class Client;
+}
 
-namespace Talker{
+namespace Talker
+{
 
 class Client
 {
 private:
-	LibClient* m_lib_client;
+	Lib::Client* m_lib_client;
 
 	bool send(uint16_t receiver, const void* data, size_t len);
 
@@ -25,7 +30,6 @@ public:
 	void connect(Router &router);
 	bool disconnect();
 
-    
 	template<typename T>
 	void send(uint16_t receiver, const T &data)
 	{

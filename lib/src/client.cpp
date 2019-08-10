@@ -3,7 +3,7 @@
 #include "client.h"
 #include "router.h"
 
-namespace Library
+namespace Lib
 {
 
 void Client::receiveUserMsg(Msg msg)

@@ -1,7 +1,7 @@
 #include "router.h"
 #include "client.h"
 
-namespace Library
+namespace Lib
 {
 
 Router::Router(uint16_t freq_khz)

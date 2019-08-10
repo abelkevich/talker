@@ -1,12 +1,20 @@
 #include "client.h"
+
 #include "lib/include/client.h"
+#include "lib/include/msg.h"
 
 namespace Talker
 {
 
 Client::Client(std::function<void(const Msg&)> msg_hanlder)
-             : m_lib_client(new Library::Client(msg_handler))
+			 : m_lib_client(nullptr)
 {
+	auto msg_adapter_f = [msg_hanlder] (const Lib::Msg& msg)
+	{
+		msg_hanlder(Msg(msg.getSender(), msg.getReceiver(), msg.getData(), msg.getLength()));
+	};
+
+	m_lib_client = new Lib::Client(msg_adapter_f);
 }
   
 Client::~Client()
@@ -21,17 +29,17 @@ uint16_t Client::getId() const
 
 void Client::connect(Router &router)
 {
-	m_lib_client->connect(router->getRouter());
+	m_lib_client->connect(*router.getRouter());
 }
 
 bool Client::disconnect()
 {
-    m_lib_client->disconnect();
+    return m_lib_client->disconnect();
 }
 
 bool Client::send(uint16_t receiver, const void* data, size_t len)
 {
-	m_lib_client->send(receiver, data, len);
+	return m_lib_client->send(receiver, data, len);
 }
 
 }

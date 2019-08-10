@@ -2,7 +2,7 @@
 
 #include <cinttypes>
 
-namespace Library 
+namespace Lib 
 {
 
 typedef uint16_t ID;
