@@ -6,24 +6,23 @@
 #include "msg.h"
 #include "client.h"
 
-using namespace Talker;
+using namespace Lib;
 
 class Sample final
 {
 private:
 	Client *m_client;
 
-	void handle(const Msg& msg)
+	void handle(const std::string* msg)
 	{
-		std::string *str = reinterpret_cast<std::string*>(msg.getData());
-
-		std::cout << *str << std::endl;
+		std::cout << *msg << std::endl;
 	}
 
 public:
-	Sample(Router &router) 
+	Sample(Router &router)
 	{
-		m_client = new Client([this](const Msg& msg) -> void {handle(msg); });
+		m_client = new Client();
+		//m_client->addHandler<std::string>([this](const std::string* msg) {handle(msg); });
 		m_client->connect(router);
 	}
 
@@ -36,16 +35,18 @@ public:
 };
 
 
-void handle_zero(const Msg& msg)
+void handle_zero(const std::string* msg)
 {
 	std::cout << "zero\n";
 }
 
 int main()
 {
-    Router router;
+    Router router(100);
 
-    Client client_0(handle_zero);
+    Client client_0;
+
+	client_0.addHandler<std::string>(handle_zero);
 
 	client_0.connect(router);
 

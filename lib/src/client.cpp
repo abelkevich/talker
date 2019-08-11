@@ -6,10 +6,31 @@
 namespace Lib
 {
 
+	HandlerBase::HandlerBase(size_t type_hash)
+		: m_type_hash(type_hash)
+	{
+
+	}
+
+	size_t HandlerBase::getTypeHash() const
+	{
+		return m_type_hash;
+	}
+
+
 void Client::receiveUserMsg(Msg msg)
 {
-	std::lock_guard<std::mutex> lock(m_handler_mutex);
-	m_f(msg);
+	//std::lock_guard<std::mutex> lock(m_handler_mutex);
+	
+	auto find_it = m_handlers.find(msg.getTypeHash());
+
+	if (find_it == m_handlers.end())
+	{
+		return;
+	}
+
+	find_it->second(msg);
+
 	delete msg.getData();
 }
 
@@ -31,7 +52,7 @@ void Client::receiveSystemMsg(const RouterMsg &msg)
 	}
 }
 
-bool Client::send(uint16_t receiver, const void* data, size_t len)
+bool Client::send(uint16_t receiver, const void* data, size_t len, size_t type_hash)
 {
 	if (!m_router)
 	{
@@ -41,15 +62,14 @@ bool Client::send(uint16_t receiver, const void* data, size_t len)
 	uint8_t* data_copy = new uint8_t[len];
 	std::memcpy(data_copy, data, len);
 
-	m_router->send(Msg(m_id, receiver, data_copy, len));
+	m_router->send(Msg(m_id, receiver, data_copy, len, type_hash));
 
 	return true;
 }
 
-Client::Client(std::function<void(const Msg&)> f)
+Client::Client()
 			 : m_router(nullptr)
 			 , m_id(0)
-			 , m_f(f)
 {
 
 }
