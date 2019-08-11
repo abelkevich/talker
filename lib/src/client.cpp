@@ -6,17 +6,19 @@
 namespace Lib
 {
 
-	HandlerBase::HandlerBase(size_t type_hash)
-		: m_type_hash(type_hash)
-	{
+bool Client::addHandler(std::pair<size_t, std::function<void(const Msg&)>> handler)
+{
+	auto it = m_handlers.find(handler.first);
 
+	if (it != m_handlers.end())
+	{
+		return false;
 	}
 
-	size_t HandlerBase::getTypeHash() const
-	{
-		return m_type_hash;
-	}
+	m_handlers.insert(handler);
 
+	return true;
+}
 
 void Client::receiveUserMsg(Msg msg)
 {
