@@ -13,7 +13,7 @@ class Sample final
 private:
 	Client *m_client;
 
-	void handle(uint16_t sender, const std::string* msg)
+	void handle(id_t sender, const std::string* msg)
 	{
 		std::cout << *msg << std::endl;
 	}
@@ -22,7 +22,7 @@ public:
 	Sample(Router &router)
 	{
 		m_client = new Client();
-	    m_client->addHandler<std::string>([this](uint16_t sender, const std::string* msg) {handle(sender, msg);});
+	    m_client->addHandler<std::string>([this](id_t sender, const std::string* msg) {handle(sender, msg);});
 		m_client->connect(router);
 	}
 
@@ -35,7 +35,7 @@ public:
 };
 
 
-void handle_zero(uint16_t sender, const std::string* msg)
+void handle_zero(id_t sender, const std::string* msg)
 {
 	std::cout << "zero\n";
 }
@@ -52,7 +52,7 @@ int main()
 
 	Sample *sample_0 = new Sample(router);
 
-	for(uint16_t i = 0; i<1000; i++)
+	for(uint16_t i = 0; i<10; i++)
 	{
 		client_0.send<std::string>(sample_0->getClient().getId(), std::string("kawabangaa"));
 
@@ -60,12 +60,6 @@ int main()
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
-
-	while (true)
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-	}
-
 
 	return 0;
 }

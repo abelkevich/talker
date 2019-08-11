@@ -31,5 +31,8 @@
     <ClInclude Include="..\..\..\api\include\msg.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\api\include\cmn.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

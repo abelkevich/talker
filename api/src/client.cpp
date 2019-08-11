@@ -29,7 +29,7 @@ bool Client::addHandler(size_t type_hash, std::function<void(const Msg&)> handle
 }
 
 
-uint16_t Client::getId() const
+id_t Client::getId() const
 {
 	return m_lib_client->getId();
 }
@@ -44,7 +44,7 @@ bool Client::disconnect()
     return m_lib_client->disconnect();
 }
 
-bool Client::send(uint16_t receiver, const void* data, size_t len, size_t type_hash)
+bool Client::send(id_t receiver, const void* data, size_t len, size_t type_hash)
 {
 	return m_lib_client->send(receiver, data, len, type_hash);
 }

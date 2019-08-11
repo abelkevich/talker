@@ -1,16 +1,16 @@
 #pragma once
 
-#include <cinttypes>
+#include "cmn.h"
 
 namespace Talker
 {
 
 struct Msg final
 {
-	uint16_t sender;
+	id_t sender;
 	uint8_t* data;
 
-	Msg(uint16_t sender, uint8_t* data);
+	Msg(id_t sender, uint8_t* data);
 };
 
 }

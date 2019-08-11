@@ -4,7 +4,17 @@
 namespace Talker
 {
 
-std::list<uint16_t> Router::getOnlineClients()
+Router::Router(id_t freq_khz)
+			 : m_lib_router(new Lib::Router(freq_khz))
+{
+}
+
+Router::~Router()
+{
+	delete m_lib_router;
+}
+
+std::list<id_t> Router::getOnlineClients()
 {
     return m_lib_router->getOnlineClients();
 }
@@ -14,12 +24,12 @@ bool Router::isQueueEmpty() const
     return m_lib_router->isQueueEmpty();
 }
 
-bool Router::isClientOnline(uint16_t id)
+bool Router::isClientOnline(id_t id)
 {
     return m_lib_router->isClientOnline(id);
 }
 
-bool Router::disconnectClient(uint16_t id)
+bool Router::disconnectClient(id_t id)
 {
     return m_lib_router->disconnectClient(id);
 }
@@ -34,13 +44,4 @@ Lib::Router* Router::getRouter() const
 	return m_lib_router;
 }
 
-Router::Router(uint16_t freq_khz)
-             : m_lib_router(new Lib::Router(freq_khz))
-{
-}
-
-Router::~Router()
-{
-    delete m_lib_router;
-}
 }

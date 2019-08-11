@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\api\include\client.h" />
+    <ClInclude Include="..\..\..\api\include\cmn.h" />
     <ClInclude Include="..\..\..\api\include\msg.h" />
     <ClInclude Include="..\..\..\api\include\router.h" />
   </ItemGroup>

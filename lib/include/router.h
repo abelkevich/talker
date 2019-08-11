@@ -27,6 +27,7 @@ private:
 	std::mutex m_queue_mutex;
 	std::mutex m_clients_mutex;
 	std::atomic_bool m_queue_empty;
+	std::atomic_bool m_queue_process_working;
 	
 	void process(uint16_t freq_khz);
 	uint16_t genId();

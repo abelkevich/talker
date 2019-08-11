@@ -6,6 +6,7 @@ namespace Lib
 
 Router::Router(uint16_t freq_khz)
              : m_queue_empty(true)
+			 , m_queue_process_working(true)
 {
 	m_msg_queue_process_thread = std::thread([=]{process(freq_khz);});
 }
@@ -13,6 +14,8 @@ Router::Router(uint16_t freq_khz)
 Router::~Router()
 {
     reset();
+
+	m_queue_process_working = false;
 	m_msg_queue_process_thread.join();
 }
 
@@ -55,7 +58,7 @@ void Router::process(uint16_t freq_khz)
 {
 	auto wait_time = std::chrono::microseconds(1000/freq_khz);
 
-	while (true)
+	while (m_queue_process_working)
 	{
 		std::this_thread::sleep_for(wait_time);
 

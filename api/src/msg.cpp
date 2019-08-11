@@ -5,7 +5,7 @@
 namespace Talker
 {
 
-Msg::Msg(uint16_t sender, uint8_t* data)
+Msg::Msg(id_t sender, uint8_t* data)
 	   : sender(sender)
 	   , data(data)
 {
